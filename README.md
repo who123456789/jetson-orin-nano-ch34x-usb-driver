@@ -1,5 +1,18 @@
 # jetson-orin-nano-ch34x-usb-driver
 This guide explains how to build and install the in-tree CH341 USB serial driver on Jetson boards running JetPack/L4T so that devices such as CH340/CH341 USB-UART converters are recognized as `/dev/ttyUSBx`.
+
+## ⚠️IMPORTANT: Remove `brltty` first (avoids ttyUSB getting grabbed)**
+On some Ubuntu-based Jetson images, **brltty** (Braille display service) may automatically claim CH340/CH341 USB–UART adapters as Braille devices and immediately disconnect `/dev/ttyUSB0`. If your device keeps disappearing or kernel logs show `brltty sets config #1`, remove brltty first:
+
+```bash
+sudo apt purge -y 'brltty*'
+sudo apt autoremove -y
+```
+
+*Explanation:* `brltty` can bind to CH34x adapters and steal the interface,
+causing `/dev/ttyUSB0` to vanish right after it appears. Removing it avoids
+conflicts before building/installing the driver.
+
 ## 📋 Prerequisites
 1. Check your current kernel and L4T version
 
@@ -18,7 +31,7 @@ This guide explains how to build and install the in-tree CH341 USB serial driver
 3. Download the matching Kernel Source
 
     - Go to [NVIDIA Jetson Linux Downloads](https://developer.nvidia.com/embedded/jetson-linux)
-    - Download Driver Package (BSP) Sources for your exact L4T/JetPack version.
+    - Download `Driver Package (BSP) Sources` for your exact L4T/JetPack version.
     - This download will give you a file named `public_sources.tbz2`.
 
 ## 📦 Prepare Kernel Source
@@ -65,7 +78,6 @@ This guide explains how to build and install the in-tree CH341 USB serial driver
         `Device Drivers → USB support → USB Serial Converter support`
 
     - Mark as modules (M):
-        - **USB Serial Converter support**
         - **USB Winchiphead CH341 Single Port Serial Driver**
 
     - Save and exit.
