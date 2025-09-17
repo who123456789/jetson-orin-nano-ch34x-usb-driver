@@ -17,7 +17,7 @@ This guide explains how to build and install the in-tree CH341 USB serial driver
 
 3. Download the matching Kernel Source
 
-    - Go to [NVIDIA Jetson Linux Downloads]((https://github.com/alianlbj23/jetson-orin-nano-ch34x-usb-driver))
+    - Go to [NVIDIA Jetson Linux Downloads](https://developer.nvidia.com/embedded/jetson-linux)
     - Download Driver Package (BSP) Sources for your exact L4T/JetPack version.
     - This download will give you a file named `public_sources.tbz2`.
 
